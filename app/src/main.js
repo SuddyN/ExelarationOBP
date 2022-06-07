@@ -1,8 +1,11 @@
 // Necessary global variables
 var countrySel;
 var stateSel;
-var newText;
+var newName;
+var newCode;
 var submitButton;
+var countryList;
+var stateList;
 
 // REST API functions
 async function getStates(countryCode) {
@@ -15,10 +18,29 @@ async function getCountries() {
     let data = await response.json();
     return data;
 }
+async function postState(entry) {
+    let response = await fetch("https://xc-countries-api.herokuapp.com/api/states/", {
+        headers: {
+            'Content-Type': "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(entry)
+    });
+    return response.data;
+}
+async function postCountry(entry) {
+    let response = await fetch("https://xc-countries-api.herokuapp.com/api/countries/", {
+        headers: {
+            'Content-Type': "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(entry)
+    });
+    return response.data;
+}
 
 // Functions called on REST API load
-function onStatesLoad(stateList) {
-    console.log(stateList);
+function onStatesLoad() {
 
     // Populate the States dropdown with the stateList
     for (let state in stateList) {
@@ -31,19 +53,21 @@ function onStatesLoad(stateList) {
     stateSel.onchange = function () {
         if (this.value === "NEW") {
             // enable adding new states when selected
-            newText.disabled = false;
+            newName.disabled = false;
+            newCode.disabled = false;
             submitButton.disabled = false;
         } else {
             // disable adding new states when not selected
-            newText.disabled = true;
+            newName.disabled = true;
+            newName.value = "";
+            newCode.disabled = true;
+            newCode.value = "";
             submitButton.disabled = true;
-
-            console.log(stateList[this.value].code);
         }
     }
 }
-function onCountriesLoad(countryList) {
-    console.log(countryList);
+
+function onCountriesLoad() {
 
     // Populate the Countries dropdown with the countryList
     for (let country in countryList) {
@@ -59,17 +83,22 @@ function onCountriesLoad(countryList) {
 
         if (this.value === "NEW") {
             // enable adding new countries when selected
-            newText.disabled = false;
+            newName.disabled = false;
+            newCode.disabled = false;
             submitButton.disabled = false;
         } else {
             // disable adding new countries when not selected
-            newText.disabled = true;
+            newName.disabled = true;
+            newName.value = "";
+            newCode.disabled = true;
+            newCode.value = "";
             submitButton.disabled = true;
 
-            console.log(countryList[this.value].code);
-
             // Populate the list of states and hand control over to onStatesLoad()
-            getStates(countryList[this.value].code).then(data => onStatesLoad(data));
+            getStates(countryList[this.value].code).then(data => {
+                stateList = data;
+                onStatesLoad();
+            });
         }
     }
 }
@@ -79,9 +108,54 @@ window.onload = function () {
     // Get a global reference to all of the forms
     countrySel = document.getElementById("country");
     stateSel = document.getElementById("state");
-    newText = document.getElementById("newText");
+    newName = document.getElementById("newName");
+    newCode = document.getElementById("newCode");
     submitButton = document.getElementById("submit");
 
+    // Create an entry and post depending on selections
+    submitButton.onclick = function () {
+        if (!newName || !newName.value || !newCode || !newCode.value) return;
+        let entry = {
+            code: newCode.value.toUpperCase(),
+            name: newName.value
+        }
+        if (countrySel.value === "NEW") {
+            postCountry(entry).then(() => {
+                getCountries().then(data => {
+                    countryList = data;
+                    countrySel.value = '';
+                    countrySel.length = 1;
+                    onCountriesLoad();
+                    newName.disabled = true;
+                    newName.value = "";
+                    newCode.disabled = true;
+                    newCode.value = "";
+                    submitButton.disabled = true;
+                });
+            });
+        } else if (stateSel.value === "NEW") {
+            entry.countryId = countryList[countrySel.value].id;
+            postState(entry).then(() => {
+                getStates(countryList[countrySel.value].code).then(data => {
+                    stateList = data;
+                    stateSel.value = '';
+                    stateSel.length = 1;
+                    onStatesLoad();
+                    newName.disabled = true;
+                    newName.value = "";
+                    newCode.disabled = true;
+                    newCode.value = "";
+                    submitButton.disabled = true;
+                });
+            });
+        }
+    }
+
     // Populate a list of countries and hand control over to onCountriesLoad()
-    getCountries().then(data => onCountriesLoad(data));
+    getCountries().then(data => {
+        countryList = data;
+        onCountriesLoad();
+    });
 }
+
+
