@@ -24,17 +24,17 @@
 
         // REST API functions
         async function getStates(countryCode) {
-            let response = await fetch(`https://xc-countries-api.herokuapp.com/api/countries/${countryCode}/states/`);
+            let response = await fetch(`https://localhost:7255/api/State`);
             let data = await response.json();
             return data;
         }
         async function getCountries() {
-            let response = await fetch("https://xc-countries-api.herokuapp.com/api/countries/");
+            let response = await fetch("https://localhost:7255/api/Country");
             let data = await response.json();
             return data;
         }
         async function postState(entry) {
-            let response = await fetch("https://xc-countries-api.herokuapp.com/api/states/", {
+            let response = await fetch("https://localhost:7255/api/State", {
                 headers: {
                     'Content-Type': "application/json"
                 },
@@ -44,7 +44,7 @@
             return response.data;
         }
         async function postCountry(entry) {
-            let response = await fetch("https://xc-countries-api.herokuapp.com/api/countries/", {
+            let response = await fetch("https://localhost:7255/api/Country", {
                 headers: {
                     'Content-Type': "application/json"
                 },
