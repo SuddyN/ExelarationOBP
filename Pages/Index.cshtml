@@ -110,7 +110,7 @@
                     submitButton.disabled = true;
 
                     // Populate the list of states and hand control over to onStatesLoad()
-                    getStates(countryList[this.value].code).then(data => {
+                    getStates(countryList[this.value].id).then(data => {
                         stateList = data;
                         onStatesLoad();
                     });
@@ -151,7 +151,7 @@
                 } else if (stateSel.value === "NEW") {
                     entry.countryId = countryList[countrySel.value].id;
                     postState(entry).then(() => {
-                        getStates(countryList[countrySel.value].code).then(data => {
+                        getStates(countryList[countrySel.value].id).then(data => {
                             stateList = data;
                             stateSel.value = '';
                             stateSel.length = 1;
