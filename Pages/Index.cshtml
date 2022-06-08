@@ -24,7 +24,7 @@
 
         // REST API functions
         async function getStates(countryCode) {
-            let response = await fetch(`https://localhost:7255/api/State`);
+            let response = await fetch(`https://localhost:7255/api/Country/${countryCode}/States`);
             let data = await response.json();
             return data;
         }

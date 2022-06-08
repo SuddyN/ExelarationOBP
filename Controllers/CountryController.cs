@@ -36,6 +36,15 @@ namespace ExelarationOBPAPI.Controllers {
             return country;
         }
 
+        // GET: api/Country/5/States
+        [HttpGet("{countryID}/States")]
+        public async Task<ActionResult<IEnumerable<State>>> GetStatesByCountry(long id) {
+            if (_context.States == null || _context.Countrys == null) {
+                return NotFound();
+            }
+            return await _context.States.Where(state => state.countryId.Equals(id)).ToListAsync();
+        }
+
         // PUT: api/Country/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
