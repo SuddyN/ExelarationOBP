@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<CountryStateContext>(opt =>
-    opt.UseInMemoryDatabase("TodoList"));
+    opt.UseInMemoryDatabase("CountryState"));
 builder.Services.AddEndpointsApiExplorer();
 
 WebApplication? app = builder.Build();
