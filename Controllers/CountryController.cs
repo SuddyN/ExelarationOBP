@@ -37,7 +37,7 @@ namespace ExelarationOBPAPI.Controllers {
         }
 
         // GET: api/Country/5/States
-        [HttpGet("{countryID}/States")]
+        [HttpGet("{id}/States")]
         public async Task<ActionResult<IEnumerable<State>>> GetStatesByCountry(long id) {
             if (_context.States == null || _context.Countrys == null) {
                 return NotFound();
