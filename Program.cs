@@ -6,10 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
-builder.Services.AddDbContext<CountryContext>(opt =>
+builder.Services.AddDbContext<CountryStateContext>(opt =>
     opt.UseInMemoryDatabase("TodoList"));
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 
 WebApplication? app = builder.Build();
 

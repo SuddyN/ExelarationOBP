@@ -6,9 +6,9 @@ namespace ExelarationOBPAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class CountryController: ControllerBase {
-        private readonly CountryContext _context;
+        private readonly CountryStateContext _context;
 
-        public CountryController(CountryContext context) {
+        public CountryController(CountryStateContext context) {
             _context = context;
         }
 
