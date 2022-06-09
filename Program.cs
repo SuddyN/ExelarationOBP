@@ -19,6 +19,6 @@ builder.Host.UseSerilog((ctx, lc) => lc
 WebApplication? app = builder.ConfigureServices().ConfigurePipeline();
 
 // Set authorization policy for all controllers
-app.MapControllers().RequireAuthorization("ApiScope");
+//app.MapControllers().RequireAuthorization("ApiScope");
 
 app.Run();
