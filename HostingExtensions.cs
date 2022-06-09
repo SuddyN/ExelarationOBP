@@ -1,5 +1,6 @@
 using ExelarationOBPAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace ExelarationOBPAPI;
@@ -22,6 +23,15 @@ internal static class HostingExtensions {
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients);
 
+        builder.Services.AddAuthentication("Bearer")
+            .AddJwtBearer("Bearer", options => {
+                options.Authority = "https://localhost:7255";
+
+                options.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateAudience = false
+                };
+            });
+
         return builder.Build();
     }
 
@@ -35,6 +45,7 @@ internal static class HostingExtensions {
         // Configure the HTTP request pipeline.
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
         app.MapRazorPages();
