@@ -21,7 +21,8 @@ internal static class HostingExtensions {
         })
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients);
+            .AddInMemoryClients(Config.Clients)
+            .AddTestUsers(TestUsers.Users);
 
         // API Authentication policy
         builder.Services.AddAuthentication("Bearer")
@@ -33,14 +34,13 @@ internal static class HostingExtensions {
                 };
             });
 
-
         // API Authorization policy:
         // The protocol ensures that this scope will only be in the token if the
         // client requests it and IdentityServer allows the client to have that scope.
         builder.Services.AddAuthorization(options => {
             options.AddPolicy("ApiScope", policy => {
                 policy.RequireAuthenticatedUser();
-                policy.RequireClaim("scope", "countryState");
+                policy.RequireClaim("scope", "api1");
             });
         });
 
