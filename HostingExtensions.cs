@@ -1,12 +1,19 @@
+using ExelarationOBPAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace ExelarationOBPAPI;
 
 internal static class HostingExtensions {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder) {
-        // uncomment if you want to add a UI
-        //builder.Services.AddRazorPages();
+        // Add services to the container.
+        builder.Services.AddRazorPages();
+        builder.Services.AddControllers();
+        builder.Services.AddDbContext<CountryStateContext>(opt =>
+            opt.UseInMemoryDatabase("CountryState"));
+        builder.Services.AddEndpointsApiExplorer();
 
+        // IdentityServer Service
         builder.Services.AddIdentityServer(options => {
             // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
             options.EmitStaticAudienceClaim = true;
@@ -25,15 +32,15 @@ internal static class HostingExtensions {
             app.UseDeveloperExceptionPage();
         }
 
-        // uncomment if you want to add a UI
-        //app.UseStaticFiles();
-        //app.UseRouting();
-
-        app.UseIdentityServer();
-
-        // uncomment if you want to add a UI
-        //app.UseAuthorization();
+        // Configure the HTTP request pipeline.
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        app.UseAuthorization();
+        app.MapControllers();
+        app.MapRazorPages();
         //app.MapRazorPages().RequireAuthorization();
+        //app.UseRouting();
+        app.UseIdentityServer();
 
         return app;
     }
