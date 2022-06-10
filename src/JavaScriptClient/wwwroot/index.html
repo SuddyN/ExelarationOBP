@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <button id="login">Login</button>
+    <button id="logout">Logout</button>
+
+    <pre id="results"></pre>
+
+    <script src="app.js"></script>
+
+    <h2>Countries and States</h2>
+
+    <script src="main.js"></script>
+
+    Country: <select name="country" id="country">
+        <option value="" selected="selected">Select country</option>
+    </select>
+    <br><br>
+    State: <select name="state" id="state">
+        <option value="" selected="selected">Please select country first</option>
+    </select>
+    <br><br>
+    <h2>New Entry:</h2>
+    Name: <input type="text" name="newName" id="newName" placeholder="Enter New Entry's Name" disabled maxlength="50" />
+    <br><br>
+    Code: <input type="text" name="newCode" id="newCode" placeholder="Enter New Entry's Code" disabled maxlength="4" />
+    <br><br>
+    <input type="submit" name="submit" id="submit" value="Submit" disabled>
+
+</body>
+</html>
