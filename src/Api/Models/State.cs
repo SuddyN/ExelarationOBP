@@ -1,4 +1,4 @@
-﻿namespace ExelarationOBPAPI.Models;
+﻿namespace Api.Models;
 
 public class State {
     public long id { get; set; }

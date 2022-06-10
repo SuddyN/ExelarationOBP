@@ -1,4 +1,4 @@
-﻿namespace ExelarationOBPAPI.Models;
+﻿namespace Api.Models;
 
 public class Country {
     public long id { get; set; }

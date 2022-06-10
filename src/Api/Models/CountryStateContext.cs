@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-namespace ExelarationOBPAPI.Models;
+namespace Api.Models;
 
 public class CountryStateContext: DbContext {
     public CountryStateContext(DbContextOptions<CountryStateContext> options) : base(options) { }

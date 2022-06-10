@@ -1,9 +1,9 @@
-﻿using ExelarationOBPAPI.Models;
+﻿using Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExelarationOBPAPI.Controllers;
+namespace Api.Controllers;
 
 [Route("[controller]")]
 [ApiController]

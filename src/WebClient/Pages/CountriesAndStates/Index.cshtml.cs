@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ExelarationOBPAPI.Pages {
+namespace WebClient.Pages {
     public class CountriesStatesModel: PageModel {
         public void OnGet() {
         }
