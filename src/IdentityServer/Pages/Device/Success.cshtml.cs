@@ -5,9 +5,7 @@ namespace IdentityServerHost.Pages.Device;
 
 [SecurityHeaders]
 [Authorize]
-public class SuccessModel : PageModel
-{
-    public void OnGet()
-    {
+public class SuccessModel: PageModel {
+    public void OnGet() {
     }
 }

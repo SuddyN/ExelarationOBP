@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
 using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,14 +19,15 @@ builder.Services.AddAuthentication(options => {
         options.ClientSecret = "secret";
         options.ResponseType = "code";
 
+        options.SaveTokens = true;
+
         options.Scope.Clear();
         options.Scope.Add("openid");
         options.Scope.Add("profile");
-        options.Scope.Add("verification");
-        options.ClaimActions.MapJsonKey("email_verified", "email_verified");
-        options.GetClaimsFromUserInfoEndpoint = true;
+        options.Scope.Add("offline_access");
+        options.Scope.Add("api1");
 
-        options.SaveTokens = true;
+        options.GetClaimsFromUserInfoEndpoint = true;
     });
 
 var app = builder.Build();

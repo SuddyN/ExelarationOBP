@@ -1,22 +1,18 @@
 // Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace IdentityServerHost.Pages.Ciba;
 
 [SecurityHeaders]
 [Authorize]
-public class AllModel : PageModel
-{
+public class AllModel: PageModel {
     public IEnumerable<BackchannelUserLoginRequest> Logins { get; set; }
 
     [BindProperty, Required]
@@ -26,13 +22,11 @@ public class AllModel : PageModel
 
     private readonly IBackchannelAuthenticationInteractionService _backchannelAuthenticationInteraction;
 
-    public AllModel(IBackchannelAuthenticationInteractionService backchannelAuthenticationInteractionService)
-    {
+    public AllModel(IBackchannelAuthenticationInteractionService backchannelAuthenticationInteractionService) {
         _backchannelAuthenticationInteraction = backchannelAuthenticationInteractionService;
     }
 
-    public async Task OnGet()
-    {
+    public async Task OnGet() {
         Logins = await _backchannelAuthenticationInteraction.GetPendingLoginRequestsForCurrentUserAsync();
     }
 }
