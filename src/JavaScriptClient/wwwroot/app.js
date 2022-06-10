@@ -27,9 +27,19 @@ let userClaims = null;
         if (resp.ok) {
             userClaims = await resp.json();
 
-            log("user logged in", userClaims);
+            log("user logged in");
+            document.getElementById("country").disabled = false;
+            document.getElementById("state").disabled = false;
+            document.getElementById("newName").disabled = false;
+            document.getElementById("newCode").disabled = false;
+            document.getElementById("submit").disabled = false;
         } else if (resp.status === 401) {
             log("user not logged in");
+            document.getElementById("country").disabled = true;
+            document.getElementById("state").disabled = true;
+            document.getElementById("newName").disabled = true;
+            document.getElementById("newCode").disabled = true;
+            document.getElementById("submit").disabled = true;
         }
     } catch (e) {
         log("error checking user status");
@@ -37,8 +47,6 @@ let userClaims = null;
 })();
 
 document.getElementById("login").addEventListener("click", login, false);
-document.getElementById("local").addEventListener("click", localApi, false);
-document.getElementById("remote").addEventListener("click", remoteApi, false);
 document.getElementById("logout").addEventListener("click", logout, false);
 
 function login() {
@@ -53,45 +61,5 @@ function logout() {
         window.location = logoutUrl;
     } else {
         window.location = "/bff/logout";
-    }
-}
-
-async function localApi() {
-    var req = new Request("/local/identity", {
-        headers: new Headers({
-            "X-CSRF": "1",
-        }),
-    });
-
-    try {
-        var resp = await fetch(req);
-
-        let data;
-        if (resp.ok) {
-            data = await resp.json();
-        }
-        log("Local API Result: " + resp.status, data);
-    } catch (e) {
-        log("error calling local API");
-    }
-}
-
-async function remoteApi() {
-    var req = new Request("/remote/identity", {
-        headers: new Headers({
-            "X-CSRF": "1",
-        }),
-    });
-
-    try {
-        var resp = await fetch(req);
-
-        let data;
-        if (resp.ok) {
-            data = await resp.json();
-        }
-        log("Remote API Result: " + resp.status, data);
-    } catch (e) {
-        log("error calling remote API");
     }
 }
