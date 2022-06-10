@@ -4,17 +4,18 @@ using IdentityModel;
 
 namespace IdentityServer;
 
-public static class Config {
+public static class Config
+{
     public static IEnumerable<IdentityResource> IdentityResources =>
         new List<IdentityResource>
-        {
+        { 
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
             new IdentityResource()
             {
                 Name = "verification",
-                UserClaims = new List<string>
-                {
+                UserClaims = new List<string> 
+                { 
                     JwtClaimTypes.Email,
                     JwtClaimTypes.EmailVerified
                 }
@@ -23,23 +24,24 @@ public static class Config {
 
     public static IEnumerable<ApiScope> ApiScopes =>
         new List<ApiScope>
-        {
-            new ApiScope("api1", "MyAPI")
+        { 
+            new ApiScope("api1", "MyAPI") 
         };
 
     public static IEnumerable<ApiResource> ApiResources =>
-        new List<ApiResource> {
+        new List<ApiResource>
+        { 
         };
 
     public static IEnumerable<Client> Clients =>
-        new List<Client>
+        new List<Client> 
         {
             // machine-to-machine client (from quickstart 1)
             new Client
             {
                 ClientId = "client",
                 ClientSecrets = { new Secret("secret".Sha256()) },
-
+                
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 // scopes that client has access to
                 AllowedScopes = { "api1" }
@@ -59,6 +61,27 @@ public static class Config {
                 PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
 
                 AllowOfflineAccess = true,
+
+                AllowedScopes = new List<string>
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "api1"
+                }
+            },
+            // JavaScript BFF client
+            new Client
+            {
+                ClientId = "bff",
+                ClientSecrets = { new Secret("secret".Sha256()) },
+
+                AllowedGrantTypes = GrantTypes.Code,
+                
+                // where to redirect to after login
+                RedirectUris = { "https://localhost:5003/signin-oidc" },
+
+                // where to redirect to after logout
+                PostLogoutRedirectUris = { "https://localhost:5003/signout-callback-oidc" },
 
                 AllowedScopes = new List<string>
                 {
